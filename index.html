@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cepat Sembuh Sayang!</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body onclick="playMusicOnce()">
+
+  <div id="floatingHeartsContainer"></div>
+
+  <audio id="bgMusic" loop>
+    <source src="cute-music.mp3" type="audio/mpeg" />
+  </audio>
+
+  <div class="card">
+    <img src="cute-bear.png" alt="Beruang lucu" class="bear" />
+    <h1>Hai Sayang fila cantik 🥺❤️</h1>
+    <p>Cepet Sembuh ya Bubub... 😢</p>
+    <p>Jadi aku buat ini biar kamu cepet sembuh! 🌈✨</p>
+    <button onclick="showMessage()">Klik Aku! 💖</button>
+    <button onclick="showLoveLetter()">Baca Surat Cinta 💌</button>
+    <button id="showMemoryGameButton">Main Memory Game! 🃏</button>
+    
+    <p id="surpriseMsg"></p>
+    <div id="photoGallery" class="gallery"></div>
+    
+    <audio id="dynamicMusicPlayer"></audio> 
+  </div>
+
+  <footer class="footer-copyright">
+    &copy; 2025 Nikoray Ramadhan Fila Ilmiah, A.Md.Kep. All rights reserved.
+  </footer>
+
+  <div id="loveLetterPopup" class="love-letter hidden">
+    <h2>Untuk Kamu yang Aku Sayang 💖</h2>
+    <p id="loveLetterText">
+      Hai cintaku...<br />
+      Aku tahu kamu lagi sakit dan mungkin merasa lemah sekarang...  
+      Tapi aku cuma mau bilang: kamu itu luar biasa kuat, dan aku bangga banget punya kamu.  
+      Kalau aku bisa, aku pengen peluk kamu sekarang dan bisikin langsung:  
+      "Aku selalu di sini buat kamu."  
+      Cepet sembuh ya sayangku... aku kangen peluk kamu! 🥺💞
+    </p>
+    <button onclick="closeLoveLetter()">Tutup 💌</button>
+  </div>
+  
+  <div id="memoryGamePopup" class="game-popup hidden">
+    <h2>Memory Game! 🧠</h2>
+    <p id="memoryGameMessage">Temukan semua pasangan foto!</p>
+    <div id="gameBoard" class="memory-game-board"></div>
+    <button id="restartGameButton">Main Lagi! ✨</button>
+    <button id="closeGameButton">Tutup Game ✖️</button>
+  </div>
+
+  <div id="musicPlayerModal" class="music-modal hidden">
+    <div class="music-modal-content">
+      <span class="close-modal-btn" onclick="closeMusicModal()">&times;</span>
+      <img id="modalAlbumArt" src="foto1.jpg" alt="Album Art">
+      <h3 id="modalSongTitle">Judul Lagu - Artis</h3>
+      
+      <div class="duration-container">
+        <span id="modalCurrentTime">0:00</span>
+        <div id="modalProgressBarContainer">
+          <div id="modalProgressBar"></div>
+        </div>
+        <span id="modalTotalDuration">0:00</span>
+      </div>
+
+      <div class="modal-player-controls">
+        <button id="modalPrevSongBtn">⏮️</button>
+        <button id="modalPlayPauseBtn">▶️</button>
+        <button id="modalNextSongBtn">⏭️</button>
+      </div>
+    </div>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>

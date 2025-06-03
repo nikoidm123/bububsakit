@@ -1,0 +1,666 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body { 
+  height: 100%; /* Pastikan html dan body mengambil tinggi penuh */
+  margin: 0; /* Hapus margin default */
+  padding: 0; /* Hapus padding default */
+}
+
+body {
+  background: linear-gradient(135deg, #ffeef2, #ffe5ec);
+  font-family: 'Comic Sans MS', cursive;
+  display: flex; /* Ini untuk memusatkan .card */
+  justify-content: center;
+  align-items: center;
+  min-height: 100%; /* Body setidaknya setinggi viewport */
+  padding: 20px; /* Padding pada body agar card tidak terlalu mepet ke tepi */
+  overflow-x: hidden;
+  /* position: relative; Tidak terlalu krusial di sini karena modal fixed */
+}
+
+body.blurred::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  backdrop-filter: blur(8px);
+  background: rgba(255, 204, 221, 0.3);
+  z-index: 998; 
+  pointer-events: none; 
+}
+
+
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  animation: pop 1s ease;
+  position: relative;
+  z-index: 10; 
+}
+
+.bear {
+  width: 120px;
+  margin-bottom: 15px;
+}
+
+h1 {
+  color: #ff4d6d;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 1rem;
+  margin: 8px 0;
+}
+
+button {
+  margin-top: 10px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  background-color: #ff90b3;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #ff4d6d;
+}
+
+@keyframes pop {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.gallery.show {
+  opacity: 1;
+}
+
+.gallery img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 15px;
+  animation: floatIn 0.6s ease, floatUpDown 4s ease-in-out infinite;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    filter 0.3s ease;
+  position: relative;
+}
+
+.gallery img:hover {
+  animation-play-state: paused;
+  transform: scale(1.1) rotate(3deg);
+  box-shadow:
+    0 0 8px 3px rgba(255, 77, 109, 0.7),
+    0 0 15px 6px rgba(255, 154, 170, 0.5);
+  filter: brightness(1.1);
+  animation: shake 0.4s ease-in-out infinite;
+  z-index: 10;
+}
+
+@keyframes floatIn {
+  0% {
+    transform: translateY(20px) scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes floatUpDown {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-8px) scale(1.05);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0) rotate(3deg); }
+  25% { transform: translateX(-3px) rotate(-3deg); }
+  50% { transform: translateX(3px) rotate(3deg); }
+  75% { transform: translateX(-3px) rotate(-3deg); }
+}
+
+@keyframes photoClickAnim {
+  0% {
+    transform: scale(1) rotate(0deg);
+    box-shadow: 0 0 0px rgba(255, 77, 109, 0);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.5) rotate(15deg);
+    box-shadow:
+      0 0 25px 8px rgba(255, 77, 109, 0.9),
+      0 0 40px 15px rgba(255, 154, 170, 0.7);
+    filter: brightness(1.3);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    box-shadow: 0 0 0 rgba(255, 77, 109, 0);
+    filter: brightness(1);
+  }
+}
+
+.photo-clicked {
+  animation: photoClickAnim 0.6s ease forwards;
+  border-radius: 20px;
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  p {
+    font-size: 0.95rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 10px 20px;
+  }
+
+  .gallery img {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+.floating-heart {
+  position: fixed;
+  bottom: 0;
+  font-size: 24px;
+  animation: floatHeart 4s ease forwards;
+  pointer-events: none;
+  z-index: 20;
+}
+
+@keyframes floatHeart {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+}
+
+.hug-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #ff90b3;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 20px;
+  font-size: 1.2rem;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  z-index: 999;
+  animation: popHug 0.5s ease, fadeOut 1.5s 0.5s ease forwards;
+}
+
+@keyframes popHug {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
+}
+
+.love-letter {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 90%;
+  max-width: 400px;
+  background: #fff0f6;
+  border: 3px solid #ff90b3;
+  border-radius: 20px;
+  transform: translate(-50%, -50%);
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  z-index: 10000; 
+  animation: fadeInPop 0.5s ease;
+  text-align: left;
+}
+
+.love-letter h2 {
+  margin-bottom: 15px;
+  color: #ff4d6d;
+  text-align: center;
+}
+
+.love-letter p {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #444;
+}
+
+.love-letter button {
+  margin-top: 20px;
+  display: block;
+  width: 100%;
+  padding: 10px 0;
+  background-color: #ff4d6d;
+  border-radius: 15px;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.hidden {
+  display: none !important; 
+  opacity: 0; 
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s; 
+  visibility: hidden; 
+}
+
+.game-popup:not(.hidden), .love-letter:not(.hidden), .music-modal:not(.hidden) { /* .music-player-container sudah dihapus dari sini */
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease;
+}
+
+
+@keyframes fadeInPop {
+  /* Animasi ini untuk pop-up seperti love-letter, game, dan modal musik.
+     Transform translate(-50%, -50%) digunakan jika elemen diposisikan dengan top:50% left:50%.
+     Untuk modal musik yang dipusatkan dengan flexbox, transform pada animasi ini
+     hanya untuk efek visual saat muncul, posisi akhir ditentukan oleh flexbox. */
+  from {
+    opacity: 0;
+    /* Untuk modal yang dipusatkan flex, transform awal bisa sedikit berbeda */
+    transform: scale(0.7); 
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+#floatingHeartsContainer {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 5;
+}
+
+.floating-heart-bg {
+  position: fixed;
+  bottom: 0;
+  font-size: 20px;
+  animation: floatHeartBg 10s linear forwards;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0.7;
+}
+
+@keyframes floatHeartBg {
+  0% {
+    transform: translateY(0);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-110vh);
+    opacity: 0;
+  }
+}
+
+.footer-copyright {
+  position: fixed;
+  right: 15px;
+  bottom: 10px;
+  font-size: 0.9rem;
+  color: #aaa;
+  font-style: italic;
+  user-select: none;
+  z-index: 1000;
+  text-align: right;
+  max-width: 50vw;
+}
+
+@media (max-width: 480px) {
+  .footer-copyright {
+    right: 50%;
+    bottom: 10px;
+    transform: translateX(50%);
+    text-align: center;
+    max-width: 90vw;
+  }
+}
+
+.game-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 90%;
+  max-width: 400px;
+  background: #fff0f6;
+  border: 3px solid #ff90b3;
+  border-radius: 20px;
+  transform: translate(-50%, -50%);
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  z-index: 9990; 
+  animation: fadeInPop 0.5s ease;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-popup h2 {
+  margin-bottom: 15px;
+  color: #ff4d6d;
+}
+
+.game-popup p {
+  margin-bottom: 15px;
+}
+
+.memory-game-board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 10px;
+  background-color: #ffdee9;
+  border-radius: 10px;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+}
+
+.memory-card {
+  width: 80px;
+  height: 80px;
+  perspective: 1000px;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s ease;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.front-face, .back-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  color: #fff;
+  overflow: hidden;
+  border: 2px solid #ff90b3;
+  box-sizing: border-box;
+}
+
+.front-face {
+  transform: rotateY(180deg);
+}
+
+.back-face {
+  background-color: #ff90b3;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.memory-card.flipped .front-face {
+  transform: rotateY(0deg);
+}
+
+.memory-card.flipped .back-face {
+  transform: rotateY(180deg);
+}
+
+.front-face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.memory-card.matched {
+  opacity: 0.5;
+  cursor: default;
+  box-shadow: 0 0 5px rgba(0,0,0,0.05);
+}
+.memory-card.matched .back-face {
+  background-color: #d1d1d1;
+  color: #777;
+}
+
+.game-popup button {
+    width: auto;
+    min-width: 120px;
+    margin: 5px;
+}
+
+@media (max-width: 480px) {
+    .memory-game-board {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    .memory-card {
+        width: 130px;
+        height: 130px;
+    }
+    .front-face, .back-face {
+        font-size: 2.5rem;
+    }
+    .game-popup {
+      max-width: 95%;
+      padding: 15px;
+    }
+}
+
+@media (max-width: 350px) {
+    .memory-game-board {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .memory-card {
+        width: 100px;
+        height: 100px;
+    }
+    .front-face, .back-face {
+        font-size: 2rem;
+    }
+}
+
+/* Gaya untuk .music-player-container dan turunannya sudah dihapus */
+
+
+/* --- GAYA UNTUK MUSIC PLAYER MODAL (Pemusatan Ditegaskan) --- */
+.music-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0; 
+  bottom: 0; 
+  /* width: 100%; (redundant jika top/left/right/bottom di-set) */
+  /* height: 100%; (redundant jika top/left/right/bottom di-set) */
+  background-color: rgba(0, 0, 0, 0.55); 
+  display: flex; 
+  justify-content: center; /* Pusatkan horizontal */
+  align-items: center;   /* Pusatkan vertikal */
+  z-index: 10000; 
+  opacity: 0;
+  visibility: hidden;
+  padding: 15px; /* Padding pada overlay modal agar konten tidak mepet ke tepi layar sangat kecil */
+  box-sizing: border-box; 
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.music-modal-content {
+  background: #ffe5ec; 
+  padding: 20px 25px 25px 25px; 
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  width: 100%; /* Ambil lebar penuh relatif terhadap padding .music-modal */
+  max-width: 340px; 
+  text-align: center;
+  animation: fadeInPopModal 0.4s ease forwards; /* Animasi khusus untuk modal musik */
+  position: relative; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  margin: 0; /* Pastikan tidak ada margin yang mengganggu pemusatan */
+}
+
+/* Animasi khusus untuk modal musik agar tidak bentrok dengan transform translate(-50%,-50%) dari fadeInPop umum */
+@keyframes fadeInPopModal {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+.music-modal-content .close-modal-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.8rem;
+  color: #ff4d6d;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.music-modal-content .close-modal-btn:hover {
+  transform: scale(1.2);
+}
+
+.music-modal-content #modalAlbumArt {
+  width: 100%;
+  max-width: 230px; 
+  height: auto;
+  aspect-ratio: 1 / 1; 
+  object-fit: cover;
+  border-radius: 15px;
+  margin-bottom: 15px; 
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.music-modal-content #modalSongTitle {
+  color: #ff4d6d;
+  font-size: 1.15rem; 
+  margin-bottom: 10px; 
+  font-weight: bold;
+  word-wrap: break-word;
+}
+
+.duration-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%; 
+  max-width: 280px; 
+  margin-top: 5px; 
+  margin-bottom: 15px; 
+  gap: 8px; 
+}
+
+#modalProgressBarContainer {
+  flex-grow: 1; 
+  height: 8px; 
+  background-color: #ffd1e3; 
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative; 
+  overflow: hidden; 
+}
+
+#modalProgressBar {
+  height: 100%;
+  width: 0%; 
+  background-color: #ff4d6d; 
+  border-radius: 4px;
+  transition: width 0.1s linear; 
+}
+
+#modalCurrentTime, #modalTotalDuration {
+  font-size: 0.75rem; 
+  color: #7c5b68; 
+  min-width: 35px; 
+  text-align: center;
+}
+
+.music-modal-content .modal-player-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px; 
+  margin-top: 0px; 
+}
+
+.music-modal-content .modal-player-controls button {
+  background-color: #ff90b3;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 45px; 
+  height: 45px;
+  font-size: 1.4rem; 
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding:0; 
+  margin:0; 
+}
+
+.music-modal-content .modal-player-controls button:hover {
+  background-color: #ff4d6d;
+  transform: scale(1.1);
+}
